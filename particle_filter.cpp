@@ -188,6 +188,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
             //if (dist(particles[p].x, particles[p].y, transformedObs[t].x, transformedObs[t].y) < sensor_range) // redundant (?)
             //{
 
+                // calculate multi-variate gaussian
                 w *= (1 / (2 * M_PI * sig_x * sig_y)) * exp(-(pow((transformedObs[t].x - mu_x), 2) / (2 * sig_x * sig_x) + pow((transformedObs[t].y - mu_y), 2) / (2 * sig_y * sig_y)));
             //}
         }
@@ -196,13 +197,38 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
 }
 
 void ParticleFilter::resample() {
-  /**
-   * TODO: Resample particles with replacement with probability proportional 
-   *   to their weight. 
-   * NOTE: You may find std::discrete_distribution helpful here.
-   *   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
-   */
 
+    /* Resample particles with replacement with probability proportional
+    * to their weight.
+    */
+
+    std::vector<Particle> particlesCopy = particles;
+
+    std::default_random_engine gen;
+
+    double wSum = 0;
+    double wMax = 0;
+    // calculate max weight to be used to resample particles
+    for (int i = 0; i < num_particles; i++) {
+        if (particles[i].weight > wSum)
+            wMax = w[i];
+        wSum += w[i];
+    }
+
+    /*Resampling*/
+    std::uniform_real_distribution<double> uniform_distribution_resample_real(0, 2 * wMax);
+    std::uniform_int_distribution<int> uniform_distribution_resample_int(0, num_particles);
+    int index = uniform_distribution_resample_int(gen);
+    double beta = 0;
+    for (int i = 0; i < num_particles; i++) {
+        beta += uniform_distribution_resample_real(gen);
+        while (particles[index].weight < beta) {
+            beta -= particles[index].weight;
+            index = (index + 1) % num_particles;
+        }
+        particlesCopy[i] = particles[index];
+    }
+    particles = particlesCopy;
 }
 
 void ParticleFilter::SetAssociations(Particle& particle, 
