@@ -169,7 +169,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
                 }
             //}
         }
-        transformedObs[t].id = i;   // assign matching landmark id to t-th observation
+        transformedObs[t].id = nearest_neighbor_id;   // assign matching landmark id to t-th observation
     }
 
     double mu_x;
@@ -182,8 +182,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         w = 1;
         for (int t = 0; t < transformedObs.size(); t++) // each observation
         {
-            mu_x = map_landmarks.landmark_list[transformedObs[t].id].x;
-            mu_y = map_landmarks.landmark_list[transformedObs[t].id].y;
+            mu_x = map_landmarks.landmark_list[transformedObs[t].id].x_f;
+            mu_y = map_landmarks.landmark_list[transformedObs[t].id].y_f;
 
             //if (dist(particles[p].x, particles[p].y, transformedObs[t].x, transformedObs[t].y) < sensor_range) // redundant (?)
             //{
