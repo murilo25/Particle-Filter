@@ -73,9 +73,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
     std::default_random_engine gen;
 
     // Set standard deviations for x, y, and theta
-    double std_x = std[0];
-    double std_y = std[1];
-    double std_theta = std[2];
+    double std_x = std_pos[0];
+    double std_y = std_pos[1];
+    double std_theta = std_pos[2];
 
 
     for (int i = 0; i < num_particles; i++)
@@ -140,11 +140,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
             double y_map;
             y_map = y_part + (sin(theta_part) * x_obs) + (cos(theta_part) * y_obs);
             
-            transformedObs_i.id_i = i;
+            transformedObs_i.id = i;
             transformedObs_i.x = x_map;
             transformedObs_i.y = y_map;
 
-            transformedObs.push_back(transformedObs_i)
+            transformedObs.push_back(transformedObs_i);
         }
     }
 
@@ -155,10 +155,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
     // associate observed landmarks to map landmarks
     for (int t = 0; t < transformedObs.size(); t++) // for each observation
     {
-        for (int i = 0; i < map_landmarks.size(); i++)  // for each landmark
+        for (int i = 0; i < map_landmarks.landmark_list.size(); i++)  // for each landmark
         {
             // compute distance between i-th landmark(map) and t-th observation
-            distance = dist(map_landmarks[i].x_f, map_landmarks[i].y_f, transformedObs[t].x, transformedObs[t].y);
+            distance = dist(map_landmarks.landmark_list[i].x_f, map_landmarks.landmark_list[i].y_f, transformedObs[t].x, transformedObs[t].y);
 
             //if (distance < sensor_range)    // ignore landmarks that are not within sensor range (?)
             //{
@@ -182,8 +182,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         w = 1;
         for (int t = 0; t < transformedObs.size(); t++) // each observation
         {
-            mu_x = map_landmarks[transformedObs[t].id].x;
-            mu_y = map_landmarks[transformedObs[t].id].y;
+            mu_x = map_landmarks.landmark_list[transformedObs[t].id].x;
+            mu_y = map_landmarks.landmark_list[transformedObs[t].id].y;
 
             //if (dist(particles[p].x, particles[p].y, transformedObs[t].x, transformedObs[t].y) < sensor_range) // redundant (?)
             //{
@@ -211,8 +211,8 @@ void ParticleFilter::resample() {
     // calculate max weight to be used to resample particles
     for (int i = 0; i < num_particles; i++) {
         if (particles[i].weight > wSum)
-            wMax = w[i];
-        wSum += w[i];
+            wMax = particles[i].weight;
+        wSum += particles[i].weight;
     }
 
     /*Resampling*/
