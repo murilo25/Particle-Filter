@@ -48,8 +48,6 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
     std::normal_distribution<double> dist_y(y, std_y);  
     std::normal_distribution<double> dist_theta(theta, std_theta);
 
-    std::cout << "Here1\n";
-
     for (int i = 0; i < num_particles; i++)
     {
         // initialize i-th particle from these normal distributions.
@@ -96,6 +94,8 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
         particles[i].x = x_0 + (velocity / yaw_rate) * (sin(theta_0 + yaw_rate * delta_t) - sin(theta_0));
         particles[i].y = y_0 + (velocity / yaw_rate) * (cos(theta_0) - cos(theta_0 + yaw_rate * delta_t));
         particles[i].theta = theta_0 + yaw_rate * delta_t;
+
+        std::cout << "x: " << particle[i].x << "y: " << particle[i].y << "theta: " << particle[i].theta << std::endl;
     }
 
 }
