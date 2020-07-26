@@ -123,7 +123,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
    */
 
     vector<LandmarkObs> transformedObs; // vector with transformed observations
-    LandmarkObs transformedObs_i;   // to help constructing transformedObs vector
+    
 
     // for every particles, transform observations from vehicle to map coordinates
     for (int p = 0; p < num_particles; p++)
@@ -131,9 +131,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         double x_part = particles[p].x;
         double y_part = particles[p].y;
         double theta_part = particles[p].theta;
-
+        std::cout << "Particle #" << p << std::endl;
         for (int i = 0; i < observations.size(); i++)
         {
+            LandmarkObs transformedObs_i;   // to help constructing transformedObs vector
+
             double x_obs = observations[i].x;
             double y_obs = observations[i].y;
 
@@ -150,16 +152,18 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
             transformedObs_i.y = y_map;
 
             transformedObs.push_back(transformedObs_i);
+
+            std::cout << "Observation #" << i << "\nx: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs[i].x << "\ty: " << transformedObs[i].y << std::endl;
         }
     }
-
+    /*
     std::cout << " --------------- observation (vehicle ---> map frame) --------------- " << std::endl;
-    for (int i = 0; i < transformedObs[0].size(); i++)
+    for (int i = 0; i < transformedObs.size(); i++)
     {
         std::cout << "x: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs[i].x << "\ty: " << transformedObs[i].y << std::endl;
     }
     std::cout << " ------------------------------------------------------------------- " << std::endl;
-
+    */
     double distance;
     double nearest_neighbor_dist = sensor_range;
     double nearest_neighbor_id;
