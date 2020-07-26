@@ -189,7 +189,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         }
     }
 
-
+    /*
     double mu_x;
     double mu_y;
     double sig_x = std_landmark[0];
@@ -215,6 +215,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         std::cout << "w: " << particles[p].weight << std::endl;
     }
     std::cout << " ------------------------------------------------- " << std::endl;
+    */
 }
 
 void ParticleFilter::resample() {
