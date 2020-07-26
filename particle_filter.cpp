@@ -53,12 +53,14 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
     for (int i = 0; i < num_particles; i++)
     {
         // initialize i-th particle from these normal distributions.
-        particles[i].id = i;
-        std::cout << "Here2\n";
-        particles[i].x = dist_x(gen);
-        particles[i].y = dist_y(gen);
-        particles[i].theta = dist_theta(gen);
-        particles[i].weight = 1;
+        Particle particles_i;
+        particles_i.id = i;
+        particles_i.x = dist_x(gen);
+        particles_i.y = dist_y(gen);
+        particles_i.theta = dist_theta(gen);
+        particles_i.weight = 1;
+
+        particles.push_back(particles_i);
     }
 
     is_initialized = true;
