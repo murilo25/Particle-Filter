@@ -32,7 +32,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
     *   (and others in this file).
     */
 
-    num_particles = 10;  // Set the number of particles
+    num_particles = 5;  // Set the number of particles
 
     std::default_random_engine gen;
 
@@ -146,6 +146,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
             // transform to map y coordinate
             double y_map;
             y_map = y_part + (sin(theta_part) * x_obs) + (cos(theta_part) * y_obs);
+
+            std::cout << x_map << " " << y_map << "\n";
             
             transformedObs_i.id = i;
             transformedObs_i.x = x_map;
