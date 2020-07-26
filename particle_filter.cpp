@@ -170,7 +170,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
     double distance;
     double nearest_neighbor_dist = sensor_range;
     double nearest_neighbor_id;
-
+    /*
     // associate observed landmarks to map landmarks
     for (int t = 0; t < transformedObs.size(); t++) // for each observation
     {
@@ -216,6 +216,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         std::cout << "w: " << particles[p].weight << std::endl;
     }
     std::cout << " ------------------------------------------------- " << std::endl;
+    */
 }
 
 void ParticleFilter::resample() {
