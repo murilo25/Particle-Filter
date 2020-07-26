@@ -123,7 +123,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
    */
 
     
-    vector<vector<LandmarkObs>> transformedObs_total; // vector with transformed observations for all particles
+    vector<vector<LandmarkObs>> transformedObs_all_part; // vector with transformed observations for all particles
 
     // for every particles, transform observations from vehicle to map coordinates
     for (int p = 0; p < num_particles; p++)
@@ -133,7 +133,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         double theta_part = particles[p].theta;
 
         vector<LandmarkObs> transformedObs_part; // vector with transformed observations for one particle
-        std::cout << "Particle #" << p << "\t\tx: " << particles[p].x << "\ty: " << particles[p].y << "\ttheta: " << particles[p].theta << std::endl;
+        //std::cout << "Particle #" << p << "\t\tx: " << particles[p].x << "\ty: " << particles[p].y << "\ttheta: " << particles[p].theta << std::endl;
         for (int i = 0; i < observations.size(); i++)
         {
             LandmarkObs transformedObs_part_i;   // to help constructing transformedObs vector
@@ -155,41 +155,40 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
 
             transformedObs_part.push_back(transformedObs_part_i);
 
-            std::cout << "\tObservation #" << i << "\n\tx: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs_part[i].x << "\ty: " << transformedObs_part[i].y << std::endl;
+            //std::cout << "\tObservation #" << i << "\n\tx: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs_part[i].x << "\ty: " << transformedObs_part[i].y << std::endl;
         }
-        transformedObs_total.push_back(transformedObs_part);
+        transformedObs_all_part.push_back(transformedObs_part);
     }
-    /*
-    std::cout << " --------------- observation (vehicle ---> map frame) --------------- " << std::endl;
-    for (int i = 0; i < transformedObs.size(); i++)
-    {
-        std::cout << "x: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs[i].x << "\ty: " << transformedObs[i].y << std::endl;
-    }
-    std::cout << " ------------------------------------------------------------------- " << std::endl;
-    */
+
     double distance;
     double nearest_neighbor_dist = sensor_range;
     double nearest_neighbor_id;
-    /*
+    
     // associate observed landmarks to map landmarks
-    for (int t = 0; t < transformedObs.size(); t++) // for each observation
+    for (int p = 0; p < num_particles; p++)
     {
-        for (int i = 0; i < map_landmarks.landmark_list.size(); i++)  // for each landmark
+        std::cout << "Particle #" << p << "\t\tx: " << particles[p].x << "\ty: " << particles[p].y << "\ttheta: " << particles[p].theta << std::endl;
+        for (int t = 0; t < transformedObs_all_part[p].size(); t++) // for each observation of p-th particle
         {
-            // compute distance between i-th landmark(map) and t-th observation
-            distance = dist(map_landmarks.landmark_list[i].x_f, map_landmarks.landmark_list[i].y_f, transformedObs[t].x, transformedObs[t].y);
+            for (int i = 0; i < map_landmarks.landmark_list.size(); i++)  // for each landmark
+            {
+                // compute distance between i-th landmark(map) and t-th observation
+                distance = dist(map_landmarks.landmark_list[i].x_f, map_landmarks.landmark_list[i].y_f, transformedObs_all_part[p][t].x, transformedObs_all_part[p][t].y);
 
-            //if (distance < sensor_range)    // ignore landmarks that are not within sensor range (?)
-            //{
+                //if (distance < sensor_range)    // ignore landmarks that are not within sensor range (?)
+                //{
                 if (distance < nearest_neighbor_dist)
                 {
                     nearest_neighbor_dist = distance;
                     nearest_neighbor_id = i;
                 }
-            //}
+                //}
+            }
+            transformedObs_all_part[p][t].id = nearest_neighbor_id;   // assign matching landmark id to t-th observation
+            std::cout << "\tObservation #" << t << "\t" << transformedObs_all_part[p][t].id << std::endl;
         }
-        transformedObs[t].id = nearest_neighbor_id;   // assign matching landmark id to t-th observation
     }
+
 
     double mu_x;
     double mu_y;
@@ -216,7 +215,6 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         std::cout << "w: " << particles[p].weight << std::endl;
     }
     std::cout << " ------------------------------------------------- " << std::endl;
-    */
 }
 
 void ParticleFilter::resample() {
