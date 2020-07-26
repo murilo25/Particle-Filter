@@ -16,6 +16,9 @@
 #include <vector>
 #include "map.h"
 
+
+#define DEBUG 1
+
 // for portability of M_PI (Vis Studio, MinGW, etc.)
 #ifndef M_PI
 const double M_PI = 3.14159265358979323846;
