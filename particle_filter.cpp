@@ -95,9 +95,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
         particles[i].y = y_0 + (velocity / yaw_rate) * (cos(theta_0) - cos(theta_0 + yaw_rate * delta_t));
         particles[i].theta = theta_0 + yaw_rate * delta_t;
 
-        std::cout << "x: " << particle[i].x << "y: " << particle[i].y << "theta: " << particle[i].theta << std::endl;
+        std::cout << "x: " << particles[i].x << "y: " << particles[i].y << "theta: " << particles[i].theta << std::endl;
     }
-
+    std::cout << " ------------------------------------------------- " << std::endl;
 }
 
 void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted, 

@@ -17,7 +17,7 @@
 #include "map.h"
 
 
-#define DEBUG 1
+#define DEBUG 0
 
 // for portability of M_PI (Vis Studio, MinGW, etc.)
 #ifndef M_PI
