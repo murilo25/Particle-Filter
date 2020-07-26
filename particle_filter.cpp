@@ -131,7 +131,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         double x_part = particles[p].x;
         double y_part = particles[p].y;
         double theta_part = particles[p].theta;
-        std::cout << "Particle #" << p << std::endl;
+        std::cout << "Particle #" << p << "\t\tx: " << particles[p].x << "\ty: " << particles[p].y << "\ttheta: " << particles[p].theta << std::endl;
         for (int i = 0; i < observations.size(); i++)
         {
             LandmarkObs transformedObs_i;   // to help constructing transformedObs vector
