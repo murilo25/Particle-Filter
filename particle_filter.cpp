@@ -153,6 +153,13 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         }
     }
 
+    std::cout << " --------------- observation (vehicle ---> map frame) --------------- " << std::endl;
+    for (int i = 0; i < transformedObs.size(); i++)
+    {
+        std::cout << "x: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t"; "x: " << transformedObs[i].x << "\ty: " << transformedObs[i].y << std::endl;
+    }
+    std::cout << " ------------------------------------------------------------------- " << std::endl;
+
     double distance;
     double nearest_neighbor_dist = sensor_range;
     double nearest_neighbor_id;
