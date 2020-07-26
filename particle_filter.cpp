@@ -153,7 +153,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
 
             transformedObs.push_back(transformedObs_i);
 
-            std::cout << "Observation #" << i << "\nx: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs[i].x << "\ty: " << transformedObs[i].y << std::endl;
+            std::cout << "\tObservation #" << i << "\n\tx: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs[i].x << "\ty: " << transformedObs[i].y << std::endl;
         }
     }
     /*
@@ -196,7 +196,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
     std::cout << " --------------- update --------------- " << std::endl;
     for (int p = 0; p < num_particles; p++) // each particle
     {
-        w = 1;
+        w = 1.0;
         for (int t = 0; t < transformedObs.size(); t++) // each observation
         {
             mu_x = map_landmarks.landmark_list[transformedObs[t].id].x_f;
