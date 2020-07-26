@@ -122,8 +122,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
    * In the multi-variate Gaussian, x,y are observations in map coordinates and mu_x,mu_y are the coordinates of nearest landmarks.
    */
 
-    vector<LandmarkObs> transformedObs; // vector with transformed observations
     
+    vector<vector<LandmarkObs>> transformedObs_total; // vector with transformed observations for all particles
 
     // for every particles, transform observations from vehicle to map coordinates
     for (int p = 0; p < num_particles; p++)
@@ -131,10 +131,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         double x_part = particles[p].x;
         double y_part = particles[p].y;
         double theta_part = particles[p].theta;
+
+        vector<LandmarkObs> transformedObs_part; // vector with transformed observations for one particle
         std::cout << "Particle #" << p << "\t\tx: " << particles[p].x << "\ty: " << particles[p].y << "\ttheta: " << particles[p].theta << std::endl;
         for (int i = 0; i < observations.size(); i++)
         {
-            LandmarkObs transformedObs_i;   // to help constructing transformedObs vector
+            LandmarkObs transformedObs_part_i;   // to help constructing transformedObs vector
 
             double x_obs = observations[i].x;
             double y_obs = observations[i].y;
@@ -146,17 +148,16 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
             // transform to map y coordinate
             double y_map;
             y_map = y_part + (sin(theta_part) * x_obs) + (cos(theta_part) * y_obs);
-
-            std::cout << x_map << " " << y_map << "\n";
             
-            transformedObs_i.id = i;
-            transformedObs_i.x = x_map;
-            transformedObs_i.y = y_map;
+            transformedObs_part_i.id = i;
+            transformedObs_part_i.x = x_map;
+            transformedObs_part_i.y = y_map;
 
-            transformedObs.push_back(transformedObs_i);
+            transformedObs_part.push_back(transformedObs_part_i);
 
-            std::cout << "\tObservation #" << i << "\n\tx: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs[i].x << "\ty: " << transformedObs[i].y << std::endl;
+            std::cout << "\tObservation #" << i << "\n\tx: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs_part[i].x << "\ty: " << transformedObs_part[i].y << std::endl;
         }
+        transformedObs_total.push_back(transformedObs_part);
     }
     /*
     std::cout << " --------------- observation (vehicle ---> map frame) --------------- " << std::endl;
