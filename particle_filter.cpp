@@ -80,7 +80,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
     double std_y = std_pos[1];
     double std_theta = std_pos[2];
 
-
+    std::cout << " --------------- prediction --------------- " << std::endl;
     for (int i = 0; i < num_particles; i++)
     {
         std::normal_distribution<double> dist_x(particles[i].x, std_x);  // (mean,std) -> (x,std_x)
@@ -95,7 +95,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
         particles[i].y = y_0 + (velocity / yaw_rate) * (cos(theta_0) - cos(theta_0 + yaw_rate * delta_t));
         particles[i].theta = theta_0 + yaw_rate * delta_t;
 
-        std::cout << "x: " << particles[i].x << "y: " << particles[i].y << "theta: " << particles[i].theta << std::endl;
+        std::cout << "x: " << particles[i].x << "\ty: " << particles[i].y << "\ttheta: " << particles[i].theta << std::endl;
     }
     std::cout << " ------------------------------------------------- " << std::endl;
 }
@@ -182,6 +182,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
     double sig_x = std_landmark[0];
     double sig_y = std_landmark[1];
     double w;
+    std::cout << " --------------- update --------------- " << std::endl;
     for (int p = 0; p < num_particles; p++) // each particle
     {
         w = 1;
@@ -198,7 +199,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
             //}
         }
         particles[p].weight = w;
+        std::cout << "w: " << particles[p].weight << std::endl;
     }
+    std::cout << " ------------------------------------------------- " << std::endl;
 }
 
 void ParticleFilter::resample() {
