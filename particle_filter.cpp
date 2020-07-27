@@ -122,7 +122,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
    * In the multi-variate Gaussian, x,y are observations in map coordinates and mu_x,mu_y are the coordinates of nearest landmarks.
    */
 
-    
+    for (int i = 0; i < observations.size(); i++)
+    {
+        std::cout << "Obstacle id: " << observations[i].id << "\tx: " < observations[i].x << "\ty: " << observations[i].y << std::endl;
+    }
+
+
     vector<vector<LandmarkObs>> transformedObs_all_part; // vector with transformed observations for all particles
 
     // for every particles, transform observations from vehicle to map coordinates
