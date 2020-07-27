@@ -181,7 +181,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
                 // compute distance between i-th landmark(map) and t-th observation
                 distance = dist(map_landmarks.landmark_list[i].x_f, map_landmarks.landmark_list[i].y_f, transformedObs_all_part[p][t].x, transformedObs_all_part[p][t].y);
 
-                std::cout << "distance landmark i: " << distance << std::endl;
+                //std::cout << "distance landmark i: " << distance << std::endl;
 
                 //if (distance < sensor_range)    // ignore landmarks that are not within sensor range (?)
                 //{
