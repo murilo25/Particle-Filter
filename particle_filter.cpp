@@ -124,7 +124,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
 
     for (int i = 0; i < observations.size(); i++)
     {
-        std::cout << "Obstacle id: " << observations[i].id << "\tx: " < observations[i].x << "\ty: " << observations[i].y << std::endl;
+        std::cout << "Obstacle id: " << observations[i].id << "\tx: " << observations[i].x << "\ty: " << observations[i].y << std::endl;
     }
 
 
