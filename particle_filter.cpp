@@ -175,10 +175,13 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         std::cout << "Particle #" << p << "\t\tx: " << particles[p].x << "\ty: " << particles[p].y << "\ttheta: " << particles[p].theta << std::endl;
         for (int t = 0; t < transformedObs_all_part[p].size(); t++) // for each observation of p-th particle
         {
+            std::cout << "Transformed Observation: " << t << std::endl;
             for (int i = 0; i < map_landmarks.landmark_list.size(); i++)  // for each landmark
             {
                 // compute distance between i-th landmark(map) and t-th observation
                 distance = dist(map_landmarks.landmark_list[i].x_f, map_landmarks.landmark_list[i].y_f, transformedObs_all_part[p][t].x, transformedObs_all_part[p][t].y);
+
+                std::cout << "distance landmark i: " << distance << std::endl;
 
                 //if (distance < sensor_range)    // ignore landmarks that are not within sensor range (?)
                 //{
