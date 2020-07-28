@@ -86,12 +86,12 @@ int main() {
             double previous_yawrate = std::stod(j[1]["previous_yawrate"].get<string>());
 
             #if DEBUG
-                std::cout << "Particle filter prediction...\n";
-            #endif
-
                 char debug_control;
                 std::cout << "Press any key to continue...\n";
                 std::cin >> debug_control;
+                std::cout << "Particle filter prediction...\n";
+            #endif
+
             pf.prediction(delta_t, sigma_pos, previous_velocity, previous_yawrate);
 
             #if DEBUG
