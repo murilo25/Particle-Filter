@@ -79,8 +79,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
     double std_x = std_pos[0];
     double std_y = std_pos[1];
     double std_theta = std_pos[2];
-
+#if DEBUG
     std::cout << " --------------- prediction --------------- " << std::endl;
+#endif
     for (int i = 0; i < num_particles; i++)
     {
         std::normal_distribution<double> dist_x(particles[i].x, std_x);  // (mean,std) -> (x,std_x)
@@ -100,10 +101,13 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
         particles[i].x = x_0 + (velocity / yaw_rate) * (sin(theta_0 + yaw_rate * delta_t) - sin(theta_0));
         particles[i].y = y_0 + (velocity / yaw_rate) * (cos(theta_0) - cos(theta_0 + yaw_rate * delta_t));
         particles[i].theta = theta_0 + yaw_rate * delta_t;
-
+#if DEBUG
         std::cout << "x: " << particles[i].x << "\ty: " << particles[i].y << "\ttheta: " << particles[i].theta << std::endl;
+#endif
     }
+#if DEBUG
     std::cout << " ------------------------------------------------- " << std::endl;
+#endif
 }
 
 void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted, 
@@ -127,11 +131,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
    * Once transformation is performed, each observation is assigned to a landmark.
    * In the multi-variate Gaussian, x,y are observations in map coordinates and mu_x,mu_y are the coordinates of nearest landmarks.
    */
-
+#if DEBUG
     for (int i = 0; i < observations.size(); i++)
     {
         std::cout << "Obstacle id: " << observations[i].id << "\tx: " << observations[i].x << "\ty: " << observations[i].y << std::endl;
     }
+#endif
 
 
     vector<vector<LandmarkObs>> transformedObs_all_part; // vector with transformed observations for all particles
@@ -174,7 +179,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
     // associate observed landmarks to map landmarks
     for (int p = 0; p < num_particles; p++)
     {
+#if DEBUG
         std::cout << "Particle #" << p << "\t\tx: " << particles[p].x << "\ty: " << particles[p].y << "\ttheta: " << particles[p].theta << std::endl;
+#endif
         for (int t = 0; t < transformedObs_all_part[p].size(); t++) // for each observation of p-th particle
         {
             vector<double> distance_log;
@@ -197,7 +204,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
                 //}
             }
             transformedObs_all_part[p][t].id = nearest_neighbor_id;   // assign matching landmark id to t-th observation
+#if DEBUG
             std::cout << "\tObservation #" << t <<"\t--->\t"<< "\tlandkark # " << transformedObs_all_part[p][t].id << "\tdistance: " << nearest_neighbor_dist << std::endl;
+#endif
         }
     }
 
@@ -206,7 +215,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
     double sig_x = std_landmark[0];
     double sig_y = std_landmark[1];
     double w;
+#if DEBUG
     std::cout << " --------------- update --------------- " << std::endl;
+#endif
     for (int p = 0; p < num_particles; p++) // each particle
     {
         w = 1.0;
@@ -223,9 +234,13 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
             //}
         }
         particles[p].weight = w;
+#if DEBUG
         std::cout << "w: " << particles[p].weight << std::endl;
+#endif
     }
+#if DEBUG
     std::cout << " ------------------------------------------------- " << std::endl;
+#endif
 }
 
 void ParticleFilter::resample() {
