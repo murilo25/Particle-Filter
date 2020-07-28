@@ -32,7 +32,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
     *   (and others in this file).
     */
 
-    num_particles = 5;  // Set the number of particles
+    num_particles = 10;  // Set the number of particles
 
     std::default_random_engine gen;
 
@@ -92,7 +92,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
         double y_0 = dist_y(gen);
         double theta_0 = dist_theta(gen);
 
-        std::cout << "yaw_rate: " << yaw_rate << std::endl;
+        //std::cout << "yaw_rate: " << yaw_rate << std::endl;
 
         if (abs(yaw_rate) < 0.001) {
             yaw_rate = 0.01;
