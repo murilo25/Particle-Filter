@@ -196,7 +196,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
                 //}
             }
             transformedObs_all_part[p][t].id = nearest_neighbor_id;   // assign matching landmark id to t-th observation
-            std::cout << "\tObservation #" << t << "\tlandkark # " << transformedObs_all_part[p][t].id << "\tdistance: " << distance_log[i] << std::endl;
+            std::cout << "\tObservation #" << t << "\tlandkark # " << transformedObs_all_part[p][t].id << "\tdistance: " << nearest_neighbor_dist << std::endl;
         }
     }
 
