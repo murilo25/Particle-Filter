@@ -157,9 +157,10 @@ int main() {
 
             weight_sum += particles[i].weight;
           }
-
+#if DEBUG
           std::cout << "highest w " << highest_weight << std::endl;
           std::cout << "average w " << weight_sum/num_particles << std::endl;
+#endif
 
           json msgJson;
           msgJson["best_particle_x"] = best_particle.x;
