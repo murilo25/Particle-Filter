@@ -164,12 +164,6 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         }
         transformedObs_all_part.push_back(transformedObs_part);
     }
-
-    double distance;
-    double nearest_neighbor_dist = sensor_range;
-    double nearest_neighbor_id;
-
-    
     
     // associate observed landmarks to map landmarks
     for (int p = 0; p < num_particles; p++)
@@ -178,6 +172,9 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         for (int t = 0; t < transformedObs_all_part[p].size(); t++) // for each observation of p-th particle
         {
             vector<double> distance_log;
+            double distance;
+            double nearest_neighbor_dist = sensor_range;
+            double nearest_neighbor_id;
             std::cout << "Transformed Observation: " << t << std::endl;
             for (int i = 0; i < map_landmarks.landmark_list.size(); i++)  // for each landmark
             {
