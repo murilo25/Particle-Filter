@@ -32,7 +32,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
     *   (and others in this file).
     */
 
-    num_particles = 1;  // Set the number of particles
+    num_particles = 5;  // Set the number of particles
 
     std::default_random_engine gen;
 
@@ -175,7 +175,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
             double distance;
             double nearest_neighbor_dist = sensor_range;
             double nearest_neighbor_id;
-            std::cout << "Transformed Observation: " << t << std::endl;
+            //std::cout << "Transformed Observation: " << t << std::endl;
             for (int i = 0; i < map_landmarks.landmark_list.size(); i++)  // for each landmark
             {
                 // compute distance between i-th landmark(map) and t-th observation
@@ -193,7 +193,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
                 //}
             }
             transformedObs_all_part[p][t].id = nearest_neighbor_id;   // assign matching landmark id to t-th observation
-            std::cout << "\tObservation #" << t << "\tlandkark # " << transformedObs_all_part[p][t].id << "\tdistance: " << nearest_neighbor_dist << std::endl;
+            std::cout << "\tObservation #" << t <<"\t--->\t"<< "\tlandkark # " << transformedObs_all_part[p][t].id << "\tdistance: " << nearest_neighbor_dist << std::endl;
         }
     }
 
