@@ -204,16 +204,16 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
     for (int p = 0; p < num_particles; p++) // each particle
     {
         w = 1.0;
-        for (int t = 0; t < transformedObs.size(); t++) // each observation
+        for (int t = 0; t < transformedObs_all_part[p].size(); t++) // each observation
         {
-            mu_x = map_landmarks.landmark_list[transformedObs[t].id].x_f;
-            mu_y = map_landmarks.landmark_list[transformedObs[t].id].y_f;
+            mu_x = map_landmarks.landmark_list[transformedObs_all_part[p][t].id].x_f;
+            mu_y = map_landmarks.landmark_list[transformedObs_all_part[p][t].id].y_f;
 
             //if (dist(particles[p].x, particles[p].y, transformedObs[t].x, transformedObs[t].y) < sensor_range) // redundant (?)
             //{
 
                 // calculate multi-variate gaussian
-                w *= (1 / (2 * M_PI * sig_x * sig_y)) * exp(-(pow((transformedObs[t].x - mu_x), 2) / (2 * sig_x * sig_x) + pow((transformedObs[t].y - mu_y), 2) / (2 * sig_y * sig_y)));
+                w *= (1 / (2 * M_PI * sig_x * sig_y)) * exp(-(pow((transformedObs_all_part[p][t].x - mu_x), 2) / (2 * sig_x * sig_x) + pow((transformedObs_all_part[p][t].y - mu_y), 2) / (2 * sig_y * sig_y)));
             //}
         }
         particles[p].weight = w;
