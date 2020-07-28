@@ -89,6 +89,9 @@ int main() {
                 std::cout << "Particle filter prediction...\n";
             #endif
 
+                char debug_control;
+                std::cout << "Press any key to continue...\n";
+                std::cin >> debug_control;
             pf.prediction(delta_t, sigma_pos, previous_velocity, previous_yawrate);
 
             #if DEBUG

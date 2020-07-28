@@ -168,6 +168,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
     double distance;
     double nearest_neighbor_dist = sensor_range;
     double nearest_neighbor_id;
+
+    
     
     // associate observed landmarks to map landmarks
     for (int p = 0; p < num_particles; p++)
@@ -175,13 +177,14 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         std::cout << "Particle #" << p << "\t\tx: " << particles[p].x << "\ty: " << particles[p].y << "\ttheta: " << particles[p].theta << std::endl;
         for (int t = 0; t < transformedObs_all_part[p].size(); t++) // for each observation of p-th particle
         {
+            vector<double> distance_log;
             std::cout << "Transformed Observation: " << t << std::endl;
             for (int i = 0; i < map_landmarks.landmark_list.size(); i++)  // for each landmark
             {
                 // compute distance between i-th landmark(map) and t-th observation
                 distance = dist(map_landmarks.landmark_list[i].x_f, map_landmarks.landmark_list[i].y_f, transformedObs_all_part[p][t].x, transformedObs_all_part[p][t].y);
-
-                std::cout << "distance landmark i: " << distance << std::endl;
+                distance_log.push_back(distance);
+                //std::cout << "distance landmark i: " << distance << std::endl;
 
                 //if (distance < sensor_range)    // ignore landmarks that are not within sensor range (?)
                 //{
@@ -193,7 +196,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
                 //}
             }
             transformedObs_all_part[p][t].id = nearest_neighbor_id;   // assign matching landmark id to t-th observation
-            std::cout << "\tObservation #" << t << "\t" << transformedObs_all_part[p][t].id << std::endl;
+            std::cout << "\tObservation #" << t << "\tlandkark # " << transformedObs_all_part[p][t].id << "\tdistance: " << distance_log[t] << std::endl;
         }
     }
 
