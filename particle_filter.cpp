@@ -160,7 +160,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
 
             transformedObs_part.push_back(transformedObs_part_i);
 
-            std::cout << "\tObservation #" << i << "\n\tx: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs_part[i].x << "\ty: " << transformedObs_part[i].y << std::endl;
+            //std::cout << "\tObservation #" << i << "\n\tx: " << observations[i].x << "\ty: " << observations[i].y << "\t--->\t" << "x: " << transformedObs_part[i].x << "\ty: " << transformedObs_part[i].y << std::endl;
         }
         transformedObs_all_part.push_back(transformedObs_part);
     }
@@ -175,13 +175,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
             double distance;
             double nearest_neighbor_dist = sensor_range;
             double nearest_neighbor_id;
-            //std::cout << "Transformed Observation: " << t << std::endl;
             for (int i = 0; i < map_landmarks.landmark_list.size(); i++)  // for each landmark
             {
                 // compute distance between i-th landmark(map) and t-th observation
                 distance = dist(map_landmarks.landmark_list[i].x_f, map_landmarks.landmark_list[i].y_f, transformedObs_all_part[p][t].x, transformedObs_all_part[p][t].y);
                 distance_log.push_back(distance);
-                //std::cout << "distance landmark i: " << distance << std::endl;
 
                 //if (distance < sensor_range)    // ignore landmarks that are not within sensor range (?)
                 //{
@@ -197,7 +195,6 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         }
     }
 
-    /*
     double mu_x;
     double mu_y;
     double sig_x = std_landmark[0];
@@ -223,7 +220,6 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], c
         std::cout << "w: " << particles[p].weight << std::endl;
     }
     std::cout << " ------------------------------------------------- " << std::endl;
-    */
 }
 
 void ParticleFilter::resample() {
