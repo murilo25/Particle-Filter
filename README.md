@@ -15,5 +15,4 @@ map_data.txt: File that contains all landmark information.
 helper_functions.h: Contains functions used to interface with simulator
 
 The figure below illustrates the performance of the particle filter implemented. [Here is a link for a sample video output!](https://www.youtube.com/watch?v=prqvmrtNon4)
-Landmarks are represented by black circles with a cross inside, measurements are shown as green lines, the blue car represents the real location of the vehicle and the blue circle is the estimated location of the vehicle.![](simulator_output.png)
-Note that the estimation error is under 20cm for each dimension and 0.006 for the heading direction.
+Landmarks are represented by black circles with a cross inside, measurements are shown as green lines, the blue car represents the real location of the vehicle and the blue circle is the estimated location of the vehicle. Note that the estimation error is under 20cm for each dimension and 0.006 for the heading direction.![](simulator_output.png)
